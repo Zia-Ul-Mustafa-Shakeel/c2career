@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus to Career</title>
+  <style>
+    /* =========================================
+   INTERACTIVE ELEMENTS
+   ========================================= */
+    :root {
+      /* =========================================
+        COLORS DEFINED
+      ========================================= */
+      --contrast-background-color: #2b7a9e;
+      --contrast-text-primary: #f1f5f9;
+      --contrast-accent-color: #f59e0b;
+      --contrast-accent-hover: #fbbf24;
+      --color-red: #dc2626;
+      --color-green: #2e7d32;
+      --background-color: #e6e9ef;
+      --text-primary: #2b3a55;
+      --text-secondary: #5c6f91;
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+      --border-subtle: rgba(244, 249, 255, 0.35);
+
+      /* Shadow Colors */
+      --shadow-light: #f4f9ff;
+      --shadow-dark: #b6c0cf;
+
+      /* Shadow Elevations */
+      --shadow-flat: 9px 9px 18px var(--shadow-dark),
+        -9px -9px 18px var(--shadow-light);
+      --shadow-small: 4px 4px 8px var(--shadow-dark),
+        -4px -4px 8px var(--shadow-light);
+      --shadow-large: 14px 14px 28px var(--shadow-dark),
+        -14px -14px 28px var(--shadow-light);
+
+      /* Inset / Pressed Shadows */
+      --shadow-pressed: inset 6px 6px 12px var(--shadow-dark),
+        inset -6px -6px 12px var(--shadow-light);
+      --shadow-pressed-small: inset 3px 3px 6px var(--shadow-dark),
+        inset -3px -3px 6px var(--shadow-light);
+
+      /* Surface Gradients */
+      --surface-gradient-convex: linear-gradient(145deg, #e5f0ff, #c1cad8);
+      --surface-gradient-concave: linear-gradient(145deg, #c1cad8, #e5f0ff);
+    }
+
+    /* =========================================
+   BASE STYLES
+   ========================================= */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-primary);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 6.5rem 2rem 2rem;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 8.5rem 1rem 1.5rem;
+      }
+
+      .navigation-bar {
+        width: calc(100% - 2rem);
+        padding: 0.75rem 1rem;
+      }
+
+      .navigation-div {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .header p {
+        font-size: 1.45rem;
+      }
+
+      .header,
+      .welcome {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+    }
+
+    .card {
+      display: inline-block;
+      margin: 10px;
+      background: var(--background-color);
+      border-radius: 20px;
+      box-shadow: var(--shadow-flat);
+      border: 1px solid var(--border-subtle);
+      padding: 1.5rem;
+      width: 374px;
+    }
+
+    .navigation-bar {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 4rem);
+      z-index: 1000;
+      max-width: 1200px;
+      padding: 0.9rem 1.5rem;
+      background: var(--background-color);
+      border-radius: 20px;
+      box-shadow:
+        8px 8px 16px var(--shadow-dark),
+        -8px -8px 16px var(--shadow-light);
+    }
+
+    .navigation-div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .website-name {
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      font-weight: 800;
+      letter-spacing: 1px;
+
+    }
+
+    .button {
+      text-decoration: none;
+      background: var(--contrast-background-color);
+      color: var(--contrast-text-primary);
+      font-weight: 600;
+      border: 1px solid var(--text-secondary);
+      border-radius: 12px;
+      padding: 0.5rem 1rem;
+      box-shadow: 8px 8px 16px var(--shadow-dark),
+        -8px -8px 16px var(--shadow-light);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .button:hover {
+      background: var(--text-primary);
+      box-shadow:
+        4px 4px 8px var(--shadow-dark),
+        -4px -4px 8px var(--shadow-light);
+    }
+
+    ul {
+      list-style: none;
+      padding: 10px;
+      margin: 0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+
+    }
+
+    .row-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .row-item {
+
+      background: var(--background-color);
+      font-size: 0.7rem;
+      font-weight: 500;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      align-items: center;
+      column-gap: 20px;
+
+    }
+
+    .row-item span:last-child {
+      color: var(--contrast-background-color);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-align: justify;
+    }
+
+    .row-list .row-item:nth-child(4) span:last-child {
+      color: var(--color-red);
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px 40px;
+      font-size: 0.7rem;
+    }
+
+    .detail-item {
+      color: var(--contrast-background-color);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .detail-item strong {
+      color: var(--text-primary);
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    /* Full-Width Neumorphic CTA Button */
+    .visit-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      padding: 12px 16px;
+      margin-top: 15px;
+      border-radius: 12px;
+      background-color: var(--contrast-background-color);
+      color: var(--contrast-text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      box-shadow: 8px 8px 16px var(--shadow-dark),
+        -8px -8px 16px var(--shadow-light);
+      transition: all 0.2s ease;
+    }
+
+    .visit-btn:hover {
+      background: var(--text-primary);
+      box-shadow:
+        4px 4px 8px var(--shadow-dark),
+        -4px -4px 8px var(--shadow-light);
+      transform: translateY(-2px);
+    }
+
+    .visit-btn:active {
+      box-shadow:
+        inset 4px 4px 8px var(--shadow-dark),
+        inset -4px -4px 8px var(--shadow-light);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================
+   NAV BAR
+   ========================= -->
+  <nav class="navigation-bar">
+    <div class="navigation-div">
+      <div class="website-name">Campus to Career</div>
+      <ul>
+
+        <li><a href="index.html" class="button">Home</a></li>
+        <li><a href="jobs.html" class="button">Jobs</a></li>
+        <li><a href="Admissions.html" class="button">Admissions</a></li>
+      </ul>
+    </div>
+  </nav>
+  <!-- =========================
+   NAV BAR
+   ========================= -->
+
+  <!-- ==================
+   JOB ANNOUNCEMENT START
+   ================== -->
+  <div class="card">
+    <div class="row-list">
+      <div class="row-item"><span>Organization:</span>
+        <span>Lahore Museum</span>
+      </div>
+      <div class="row-item"><span>Job Tittle:</span>
+        <span>Drone Operator (PPS-06)</span>
+      </div>
+      <div class="row-item"><span>Qualification:</span>
+        <span>Matric, Drone training Certification</span>
+      </div>
+      <div class="row-item"><span>Deadline:</span>
+        <span>10-Dec-2026</span>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item"><strong>Location:</strong>
+          Lahore</div>
+        <div class="detail-item"><strong>Vacancies:</strong>
+          01</div>
+        <div class="detail-item"><strong>Experience:</strong>
+          03 Years</div>
+        <div class="detail-item"><strong>Age Limit:</strong>
+          22--40 Year</div>
+      </div>
+      <a href="https://www.express.com.pk/epaper/PoPupwindow.aspx?newsID=1112790612&Issue=NP_LHE&Date=20261125"
+        class="visit-btn" target="_blank" rel="noopener noreferrer">
+        View Adverisement <span>&#8599;</span>
+      </a>
+    </div>
+  </div>
+  <!-- ================
+   JOB ANNOUNCEMENT END
+   ================== -->
+  <!-- ==================
+   JOB ANNOUNCEMENT START
+   ================== -->
+  <div class="card">
+    <div class="row-list">
+      <div class="row-item"><span>Organization:</span>
+        <span>Lahore Museum</span>
+      </div>
+      <div class="row-item"><span>Job Tittle:</span>
+        <span>Professional Cameraman (PPS-06)</span>
+      </div>
+      <div class="row-item"><span>Qualification:</span>
+        <span>Matric With Diploma in Film, Media</span>
+      </div>
+      <div class="row-item"><span>Deadline:</span>
+        <span>10-Dec-2026</span>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item"><strong>Location:</strong>
+          Lahore</div>
+        <div class="detail-item"><strong>Vacancies:</strong>
+          01</div>
+        <div class="detail-item"><strong>Experience:</strong>
+          03 Years</div>
+        <div class="detail-item"><strong>Age Limit:</strong>
+          22--40 Year</div>
+      </div>
+      <a href="https://www.express.com.pk/epaper/PoPupwindow.aspx?newsID=1112790612&Issue=NP_LHE&Date=20261125"
+        class="visit-btn" target="_blank" rel="noopener noreferrer">
+        View Adverisement <span>&#8599;</span>
+      </a>
+    </div>
+  </div>
+  <!-- ================
+   JOB ANNOUNCEMENT END
+   ================== -->
+  <!-- ==================
+   JOB ANNOUNCEMENT START
+   ================== -->
+  <div class="card">
+    <div class="row-list">
+      <div class="row-item"><span>Organization:</span>
+        <span>Lahore Museum</span>
+      </div>
+      <div class="row-item"><span>Job Tittle:</span>
+        <span>Non-linear Editor (PPS-06)</span>
+      </div>
+      <div class="row-item"><span>Qualification:</span>
+        <span>Bachelor in CS, IT, Software Engr</span>
+      </div>
+      <div class="row-item"><span>Deadline:</span>
+        <span>10-Dec-2026</span>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item"><strong>Location:</strong>
+          Lahore</div>
+        <div class="detail-item"><strong>Vacancies:</strong>
+          01</div>
+        <div class="detail-item"><strong>Experience:</strong>
+          02 Years</div>
+        <div class="detail-item"><strong>Age Limit:</strong>
+          22--40 Year</div>
+      </div>
+      <a href="https://www.express.com.pk/epaper/PoPupwindow.aspx?newsID=1112790612&Issue=NP_LHE&Date=20261125"
+        class="visit-btn" target="_blank" rel="noopener noreferrer">
+        View Adverisement <span>&#8599;</span>
+      </a>
+    </div>
+  </div>
+  <!-- ================
+   JOB ANNOUNCEMENT END
+   ================== -->
+  <!-- ==================
+   JOB ANNOUNCEMENT START
+   ================== -->
+  <div class="card">
+    <div class="row-list">
+      <div class="row-item"><span>Organization:</span>
+        <span>Lahore Museum</span>
+      </div>
+      <div class="row-item"><span>Job Tittle:</span>
+        <span>Story Teller (PPS-06)</span>
+      </div>
+      <div class="row-item"><span>Qualification:</span>
+        <span>16 Year Education Misc Diciplines</span>
+      </div>
+      <div class="row-item"><span>Deadline:</span>
+        <span>10-Dec-2026</span>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item"><strong>Location:</strong>
+          Lahore</div>
+        <div class="detail-item"><strong>Vacancies:</strong>
+          01</div>
+        <div class="detail-item"><strong>Experience:</strong>
+          03 Years</div>
+        <div class="detail-item"><strong>Age Limit:</strong>
+          22--40 Year</div>
+      </div>
+      <a href="https://www.express.com.pk/epaper/PoPupwindow.aspx?newsID=1112790612&Issue=NP_LHE&Date=20261125"
+        class="visit-btn" target="_blank" rel="noopener noreferrer">
+        View Adverisement <span>&#8599;</span>
+      </a>
+    </div>
+  </div>
+  <!-- ================
+   JOB ANNOUNCEMENT END
+   ================== -->
+  <!-- ==================
+   JOB ANNOUNCEMENT START
+   ================== -->
+  <div class="card">
+    <div class="row-list">
+      <div class="row-item"><span>Organization:</span>
+        <span>Lahore Museum</span>
+      </div>
+      <div class="row-item"><span>Job Tittle:</span>
+        <span>Graphic Designer (PPS-07)</span>
+      </div>
+      <div class="row-item"><span>Qualification:</span>
+        <span>16 Year Education in Relevat Field</span>
+      </div>
+      <div class="row-item"><span>Deadline:</span>
+        <span>10-Dec-2026</span>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item"><strong>Location:</strong>
+          Lahore</div>
+        <div class="detail-item"><strong>Vacancies:</strong>
+          01</div>
+        <div class="detail-item"><strong>Experience:</strong>
+          03 Years</div>
+        <div class="detail-item"><strong>Age Limit:</strong>
+          22--40 Year</div>
+      </div>
+      <a href="https://www.express.com.pk/epaper/PoPupwindow.aspx?newsID=1112790612&Issue=NP_LHE&Date=20261125"
+        class="visit-btn" target="_blank" rel="noopener noreferrer">
+        View Adverisement <span>&#8599;</span>
+      </a>
+    </div>
+  </div>
+  <!-- ================
+   JOB ANNOUNCEMENT END
+   ================== -->
+
+  <!-- ==================
+   JOB ANNOUNCEMENT START
+   ================== -->
+  <div class="card">
+    <div class="row-list">
+      <div class="row-item"><span>Organization:</span>
+        <span>Lahore Museum</span>
+      </div>
+      <div class="row-item"><span>Job Tittle:</span>
+        <span>Social Media Manager (PPS-08)</span>
+      </div>
+      <div class="row-item"><span>Qualification:</span>
+        <span>16 Year Education in Relevant Fields</span>
+      </div>
+      <div class="row-item"><span>Deadline:</span>
+        <span>10-Dec-2026</span>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item"><strong>Location:</strong>
+          Lahore</div>
+        <div class="detail-item"><strong>Vacancies:</strong>
+          01</div>
+        <div class="detail-item"><strong>Experience:</strong>
+          05 Years</div>
+        <div class="detail-item"><strong>Age Limit:</strong>
+          25--45 Year</div>
+      </div>
+      <a href="https://www.express.com.pk/epaper/PoPupwindow.aspx?newsID=1112790612&Issue=NP_LHE&Date=20261125"
+        class="visit-btn" target="_blank" rel="noopener noreferrer">
+        View Adverisement <span>&#8599;</span>
+      </a>
+    </div>
+  </div>
+  <!-- ================
+   JOB ANNOUNCEMENT END
+   ================== -->
+
+  <!-- ==================
+   JOB ANNOUNCEMENT START
+   ================== -->
+  <div class="card">
+    <div class="row-list">
+      <div class="row-item"><span>Organization:</span>
+        <span>Lahore Museum</span>
+      </div>
+      <div class="row-item"><span>Job Tittle:</span>
+        <span>Producer (PPS-08)</span>
+      </div>
+      <div class="row-item"><span>Qualification:</span>
+        <span>16 Year Education in Relevant Fields</span>
+      </div>
+      <div class="row-item"><span>Deadline:</span>
+        <span>10-Dec-2026</span>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item"><strong>Location:</strong>
+          Lahore</div>
+        <div class="detail-item"><strong>Vacancies:</strong>
+          01</div>
+        <div class="detail-item"><strong>Experience:</strong>
+          05 Years</div>
+        <div class="detail-item"><strong>Age Limit:</strong>
+          25--45 Year</div>
+      </div>
+      <a href="https://www.express.com.pk/epaper/PoPupwindow.aspx?newsID=1112790612&Issue=NP_LHE&Date=20261125"
+        class="visit-btn" target="_blank" rel="noopener noreferrer">
+        View Adverisement <span>&#8599;</span>
+      </a>
+    </div>
+  </div>
+  <!-- ================
+   JOB ANNOUNCEMENT END
+   ================== -->
+
+  <!-- ==================
+   JOB ANNOUNCEMENT START
+   ================== -->
+  <div class="card">
+    <div class="row-list">
+      <div class="row-item"><span>Organization:</span>
+        <span>Lahore Museum</span>
+      </div>
+      <div class="row-item"><span>Job Tittle:</span>
+        <span>Anchor (PPS-08)</span>
+      </div>
+      <div class="row-item"><span>Qualification:</span>
+        <span>Bachelor or Master in Relevant Fields</span>
+      </div>
+      <div class="row-item"><span>Deadline:</span>
+        <span>10-Dec-2026</span>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item"><strong>Location:</strong>
+          Lahore</div>
+        <div class="detail-item"><strong>Vacancies:</strong>
+          01</div>
+        <div class="detail-item"><strong>Experience:</strong>
+          05 Years</div>
+        <div class="detail-item"><strong>Age Limit:</strong>
+          25--45 Year</div>
+      </div>
+      <a href="https://www.express.com.pk/epaper/PoPupwindow.aspx?newsID=1112790612&Issue=NP_LHE&Date=20261125"
+        class="visit-btn" target="_blank" rel="noopener noreferrer">
+        View Adverisement <span>&#8599;</span>
+      </a>
+    </div>
+  </div>
+  <!-- ================
+   JOB ANNOUNCEMENT END
+   ================== -->
+
+</body>
+
+</html>
