@@ -179,6 +179,21 @@
       text-align: justify;
     }
 
+    .row-item:nth-child(3) span:last-child {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      /* Caps text at 4 lines with "..." */
+      line-clamp: 4;
+      /* Standard property */
+      overflow: hidden;
+
+      line-height: 1.4;
+      /* Set explicit line height */
+      min-height: calc(1.4em * 4);
+      /* Forces the block to always stay 4 lines tall */
+    }
+
     .row-list .row-item:nth-child(4) span:last-child {
       color: var(--color-red);
     }
